@@ -13,7 +13,7 @@ Thanks for taking a look at my project. The purpose of this project is to monito
 
 ### How to Setup your local environment:
 1. Use VSCode (extensions: Pylance, Python)
-2. Create a .env file in root of project
+2. Create a .env file in root of project with the following 2 lines:
 
      - `SECRET_KEY=<BAD_SECRET_KEY>`
 
