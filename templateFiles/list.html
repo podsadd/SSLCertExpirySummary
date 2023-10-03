@@ -1,0 +1,88 @@
+{% extends "_headerWithLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    <form class="row g-3" action="/list" method="post">
+        <div class="col-md-6">
+            <a class="btn btn-outline-primary" href="./">Card View</a>
+            {% if session['email'] %}
+            <a class="btn btn-outline-primary" href="./add">Add</a>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" name="environmentSelect">
+                <option selected>Choose Environment</option>
+                {% if environmentList != -1 %}
+                {% for env in environmentList %}
+                <option value="{{env.id}}">{{ env.environment }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" name="teamSelect">
+                <option selected>Choose Team</option>
+                {% if teamList != -1 %}
+                {% for team in teamList %}
+                <option value="{{ team.team }}">{{ team.team }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Port</th>
+                <th>Environment</th>
+                <th>Team</th>
+                <th>Expiry Date</th>
+                <th>Days Left</th>
+                <th>Status</th>
+                {% if session['email'] %}
+                <th>Admin</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if jsonList != -1 %}
+            {% for cert in jsonList %}
+            <tr>
+                <td>{{ cert.name }}</td>
+                <td><a href="https://{{ cert.address }}">{{ cert.address }}</a></td>
+                <td>{{cert.port}}</td>
+                <td>{{ cert.environment }}</td>
+                <td>{{ cert.team }}</td>
+                <td>{{ cert.expiryDate }}</td>
+                <td>{{ cert.daysLeft }}</td>
+
+                {% if cert.daysLeft > 30 %}
+                <td class="table-success text-center">✅</td>
+                {% elif cert.daysLeft > 10 %}
+                <td class="table-warning text-center">⚠</td>
+                {% else %}
+                <td class="table-danger text-center">❌</td>
+                {% endif %}
+                
+                {% if session['email'] %}
+                <td>
+                    <a class="btn btn-sm btn-outline-warning" href="./edit/{{ cert.id }}">Edit</a>
+                    <a class="btn btn-sm btn-outline-danger" href="./delete/{{ cert.id }}" onclick="return confirm('Are you sure you would like to delete the certificate for {{ cert.name }}?');">Delete</a>
+                </td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

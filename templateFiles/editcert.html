@@ -1,0 +1,63 @@
+{% extends "_headerWithoutLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    {% for e in errors['queryError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    {% for e in errors['invalidCertError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    <br/><br/><br/><br/>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header display-6 text-center">Edit Certificate</div>
+                <div class="card-body">
+                    <form action="/edit/{{ cert.id }}" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" placeholder="Example" name="name" value="{{ cert.name }}" required maxlength=150>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" placeholder="example.com" name="address" value="{{ cert.address }}" required maxlength=150>
+                        </div>
+                        <div class="mb-3">
+                            <label for="port" class="form-label">Port</label>
+                            <input type="text" class="form-control" placeholder="443" name="port" value="{{ cert.port }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="team" class="form-label">Team</label>
+                            <input type="text" class="form-control" placeholder="ASC1E" name="team" value="{{ cert.team }}" required maxlength=150>
+                        </div>
+                        <div class="mb-3">
+                            {% for e in errors['environmentSelectError'] %}
+                                <div class="alert alert-danger" role="alert">
+                                    <p>Error: {{e}}</p>
+                                </div>
+                            {% endfor %}
+                            <label for="environmentSelect" class="form-label">Environment</label>
+                            <select class="form-select" name="environmentSelect">
+                                <option selected>Choose Environment</option>
+                                {% if environmentList != -1 %}
+                                {% for env in environmentList %}
+                                <option value="{{env.id}}">{{ env.environment }}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

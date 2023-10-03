@@ -1,0 +1,82 @@
+{% extends "_headerWithLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    {% for e in errors['queryError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    
+    <form class="row g-3" action="/" method="post">
+        <div class="col-md-6">
+            <a class="btn btn-outline-primary" href="./list">List View</a>
+            {% if session['email'] %}
+            <a class="btn btn-outline-primary" href="./add">Add</a>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" name="environmentSelect">
+                <option selected>Choose Environment</option>
+                {% if environmentList != -1 %}
+                {% for env in environmentList %}
+                <option value="{{env.id}}">{{ env.environment }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" name="teamSelect">
+                <option selected>Choose Team</option>
+                {% if teamList != -1 %}
+                {% for team in teamList %}
+                <option value="{{ team.team }}">{{ team.team }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <br><br>
+    <div class="row row-cols-1 row-cols-sm-4 mb-3 text-center">
+        {% if jsonList != -1 %}
+        {% for cert in jsonList %}
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">{{ cert.name }}</h4>
+                    {% if session['email'] %}
+                    <div class="pt-2">
+                        <a class="btn btn-sm btn-outline-warning" href="./edit/{{ cert.id }}">Edit</a>
+                        <a class="btn btn-sm btn-outline-danger" href="./delete/{{ cert.id }}" onclick="return confirm('Are you sure you would like to delete the certificate for {{ cert.name }}?');">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+
+                    {% if (cert.daysLeft | int) > 30 %}
+                    <h1 class="card-title text-success">{{ cert.daysLeft | int }}<small class="text-muted fw-light h5"> days left</small></h1>
+                    {% elif (cert.daysLeft | int) > 10 %}
+                    <h1 class="card-title text-warning">{{ cert.daysLeft | int }}<small class="text-muted fw-light h5"> days left</small></h1>
+                    {% else %}
+                    <h1 class="card-title text-danger">{{ cert.daysLeft | int }}<small class="text-muted fw-light h5"> days left</small></h1>
+                    {% endif %}
+
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>{{ cert.environment }}</li>
+                        <li>{{ cert.team }}</li>
+                        <li><a href="https://{{ cert.address }}">{{ cert.address }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="../static/bootstrap/js/bootstrap.bundle.js"></script>
+
+    <title>SSL Certificate Expiry Summary</title>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom text-start">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <span class="fs-4">SSL Certificate Expiry Summary</span>
+            </a>
+
+
+            {% if session['email'] %}
+            <div class="dropdown">
+                <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">🐼</button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li class="dropdown-item">{{ session['email'] }}</li>
+                    {% if session['isadmin'] %}
+                    <hr class="dropdown-divider">
+                    <li><a class="dropdown-item" href="./userList">User List</a></li>
+                    <li><a class="dropdown-item" href="./environmentList">Environment List</a></li>
+                    {% endif %}
+                    <hr class="dropdown-divider">
+                    <li><a class="dropdown-item" href="./logout">Logout</a></li>
+                </ul>
+            </div>
+            {% else %}
+            <div class="text-end">
+                <a class="btn btn-outline-dark" href="./login">Login</a>
+                <a class="btn btn-warning" href="./signup">Sign-up</a>
+            </div>
+            {% endif %}
+
+        </header>
+    </div>
+
+    {% block content %}{% endblock %}
+    
+</body>
+</html>

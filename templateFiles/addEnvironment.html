@@ -1,0 +1,30 @@
+{% extends "_headerWithoutLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    {% for e in errors['queryError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    <br/><br/><br/><br/>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header display-6 text-center">Add Environment</div>
+                <div class="card-body">
+                    <form action="/addEnvironment" method="post">
+                        <div class="mb-3">
+                            <label for="environment" class="form-label">Environment</label>
+                            <input type="text" class="form-control" placeholder="Production" name="environment" value="{{request.form['environment']}}" required maxlength=100>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

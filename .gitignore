@@ -1,0 +1,5 @@
+.env
+flaskAppLog.log
+.venv/
+__pycache__/
+models/__pycache__/

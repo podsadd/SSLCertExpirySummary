@@ -1,0 +1,52 @@
+{% extends "_headerWithoutLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    {% for e in errors['queryError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    {% for e in errors['signupError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    <br/><br/><br/><br/>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header display-6 text-center">Sign-up</div>
+                <div class="card-body">
+                    <form action="/signup" method="post" onsubmit="return validateEmail()">
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="inputEmail" placeholder="name@example.com" value="{{request.form['inputEmail']}}" required maxlength=150 id="emailInput">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="inputPassword" minlength="4" maxlength=150 required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-link" href="./login">Already have an account?</a>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateEmail() {
+    var email = document.getElementById('emailInput').value;
+
+    if ( (email.replace(/[^@]/g, "").length != 1) || (email.split('@').length != 2) || (!email.split('@')[1].includes('cse-cst.gc.ca')) ){
+
+        alert("Email address not in correct format. You must follow this pattern: <value>@test.com");
+        return false;
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "_headerWithLogin.html" %}
+
+{% block content %}
+
+<div class="container">
+    
+    <h5 class="display-5">List of Environments</h5>
+    <br>
+    <a class="btn btn-outline-primary" href="./addEnvironment">Add</a>
+    {% for e in errors['queryError'] %}
+        <div class="alert alert-danger" role="alert">
+            <p>Error: {{e}}</p>
+        </div>
+    {% endfor %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Environment</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for env in envList %}
+            <tr>
+                <td>{{env.environment}}</td>
+                <td><a class="btn btn-sm btn-outline-danger" href="./deleteEnvironment/{{env.id}}" onclick="return confirm('Are you sure you would like to delete the environment {{ env.environment }}?');">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
