@@ -36,7 +36,7 @@ Thanks for taking a look at my project. The purpose of this project is to monito
      - `pip install psycopg2`
    
 8. Create a db with the following tables
-     #### CertInfo
+     #### certinfo
      | Column Name | Data Type | Allow Nulls |
      | ----------- | --------- | ----------- |
      | id | int | no |
@@ -48,13 +48,13 @@ Thanks for taking a look at my project. The purpose of this project is to monito
 
      > environmentid is a foreign key to id field in Environment table
 
-     #### Environment
+     #### environment
      | Column Name | Data Type | Allow Nulls |
      | ----------- | --------- | ----------- |
      | id | int | no |
      | environment | nvarchar(100) | no |
 
-     #### UserInfo
+     #### userinfo
      | Column Name | Data Type | Allow Nulls |
      | ----------- | --------- | ----------- |
      | id | int | no |
