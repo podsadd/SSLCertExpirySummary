@@ -7,7 +7,7 @@ config = dotenv_values(".env")
 logging.basicConfig(filename='flaskAppLog.log', level=logging.INFO)
 
 app = Flask(__name__, template_folder='templateFiles')
-app.secret_key = config['SECRET_KEY']
+app.secret_key = config['SECRET_KEY'] 
 
 engine = create_engine(config['CONNECTION_STRING'])
 
