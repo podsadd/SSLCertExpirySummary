@@ -63,7 +63,7 @@ Thanks for taking a look at my project. The purpose of this project is to monito
      | email | nvarchar(150) | no |
      | password | nvarchar(150) | no |
      | isadmin | int | no |
-> When you first register a user, you will need to update the isadmin field to 1. There is no way to make a user admin other than through the database.
+     > When you first register a user, you will need to update the isadmin field to 1. There is no way to make a user admin other than through the database.
 
 7. In VSCode, map launch.json file to 'run and debug' configuration and click run
 > Note: If running from command line, use the following 2 commands to run:
