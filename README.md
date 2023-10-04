@@ -68,7 +68,7 @@ Thanks for taking a look at my project. The purpose of this project is to monito
 7. In VSCode, map launch.json file to 'run and debug' configuration and click run
 > Note: If running from command line, use the following 2 commands to run:
 
-> `Set PYTHONHASHSEED=0`
+> `Set PYTHONHASHSEED=123`
 
 > `flask --app app run --no-debugger --no-reload --port 5000`
 
