@@ -1,6 +1,6 @@
 # SSLCertExpirySummary
 
-Thanks for taking a look at my project. The purpose of this project is to monitor SSL certificate expiry dates for sites.
+The purpose of this project is to monitor SSL certificate expiry dates for sites.
 
 ### Project Functions:
 - Card and list view
