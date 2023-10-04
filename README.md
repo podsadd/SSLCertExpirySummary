@@ -14,7 +14,7 @@ The purpose of this project is to monitor SSL certificate expiry dates for sites
 ### How to Setup your local environment:
 
 1. Use VSCode (extensions: Pylance, Python)
-   > to run without VSCode, see note below
+   > to run without VSCode, see note in step 7
 
 2. Create a .env file in root of project with the following 2 lines:
 
