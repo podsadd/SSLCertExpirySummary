@@ -12,18 +12,20 @@ Thanks for taking a look at my project. The purpose of this project is to monito
 - Logging
 
 ### How to Setup your local environment:
+
 1. Use VSCode (extensions: Pylance, Python)
+   > to run without VSCode, see note below
+
 2. Create a .env file in root of project with the following 2 lines:
 
      - `SECRET_KEY=<BAD_SECRET_KEY>`
 
      - `CONNECTION_STRING=<connection_string>`
 
-3. Map launch.json file to 'run and debug' configuration
-4. In VS Code, open the Command Palette (View > Command Palette or (Ctrl+Shift+P)). Then select the Python: Create Environment command to create a virtual environment in your workspace. Select venv and then the Python environment you want to use to create it.
-5. After your virtual environment creation has been completed, run Terminal: Create New Terminal (Ctrl+Shift+`)) from the Command Palette, which creates a terminal and automatically activates the virtual environment by running its activation script.
+3. In VS Code, open the Command Palette (View > Command Palette or (Ctrl+Shift+P)). Then select the Python: Create Environment command to create a virtual environment in your workspace. Select venv and then the Python environment you want to use to create it.
+4. After your virtual environment creation has been completed, run Terminal: Create New Terminal (Ctrl+Shift+`)) from the Command Palette, which creates a terminal and automatically activates the virtual environment by running its activation script.
    > Note: On Windows, if your default terminal type is PowerShell, you may see an error that it cannot run activate.ps1 because running scripts is disabled on the system. The error provides a link for information on how to allow scripts. Otherwise, use Terminal: Select Default Profile to set "Command Prompt" or "Git Bash" as your default instead.
-6. Run the following commands in the terminal:
+5. Run the following commands in the terminal:
 
      - `pip install flask`
 
@@ -35,7 +37,7 @@ Thanks for taking a look at my project. The purpose of this project is to monito
 
      - `pip install psycopg2`
    
-8. Create a db with the following tables
+6. Create a db with the following tables
      #### certinfo
      | Column Name | Data Type | Allow Nulls |
      | ----------- | --------- | ----------- |
@@ -61,8 +63,14 @@ Thanks for taking a look at my project. The purpose of this project is to monito
      | email | nvarchar(150) | no |
      | password | nvarchar(150) | no |
      | isadmin | int | no |
+> When you first register a user, you will need to update the isadmin field to 1. There is no way to make a user admin other than through the database.
 
-9. When you first register a user, you will need to update the isadmin field to 1. There is no way to make a user admin other than through the database.
+7. In VSCode, map launch.json file to 'run and debug' configuration and click run
+> Note: If running from command line, use the following 2 commands to run:
+
+> `Set PYTHONHASHSEED=0`
+
+> `flask --app app run --no-debugger --no-reload --port 5000`
 
 ### Things I would improve on
 - Dockerize the project
