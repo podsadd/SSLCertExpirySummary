@@ -70,7 +70,7 @@ The purpose of this project is to monitor SSL certificate expiry dates for sites
 
 > `Set PYTHONHASHSEED=123`
 
-> `flask --app app run --no-debugger --no-reload --port 5000`
+> `flask --app app run --no-debugger --no-reload --host=0.0.0.0 --port 5000`
 
 ### Things I would improve on
 - Dockerize the project
