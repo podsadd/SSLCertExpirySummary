@@ -29,19 +29,23 @@ def loadCerts(environmentid=-1, team='%'):
 
     for row in results:
         jsonResult = row._mapping
+        errorCert = False
         
         try:
             cert = ssl.get_server_certificate((jsonResult.address, jsonResult.port))
         except:
-            skip = True
+            errorCert = True
 
-        x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
-        time = datetime.datetime.strptime(x509.get_notAfter().decode('utf-8'), '%Y%m%d%H%M%S%z').date()
-        expiryDate = time.isoformat()
-        daysLeft = (datetime.datetime(time.year, time.month, time.day) - datetime.datetime.now()).days
+        if (not errorCert):
+            x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
+            time = datetime.datetime.strptime(x509.get_notAfter().decode('utf-8'), '%Y%m%d%H%M%S%z').date()
+            expiryDate = time.isoformat()
+            daysLeft = (datetime.datetime(time.year, time.month, time.day) - datetime.datetime.now()).days
 
-        certList.append(models.SSLCertModel.SSLCert(jsonResult.id, jsonResult.name, jsonResult.address, jsonResult.port, jsonResult.environment, jsonResult.environmentid, jsonResult.team, expiryDate, daysLeft))
-
+            certList.append(models.SSLCertModel.SSLCert(jsonResult.id, jsonResult.name, jsonResult.address, jsonResult.port, jsonResult.environment, jsonResult.environmentid, jsonResult.team, expiryDate, daysLeft))
+        else:
+            certList.append(models.SSLCertModel.SSLCert(jsonResult.id, "***ERROR CERT*** " + jsonResult.name, jsonResult.address, jsonResult.port, jsonResult.environment, jsonResult.environmentid, jsonResult.team, expiryDate, daysLeft))
+ 
     certList.sort(key=lambda x: x.daysLeft)
     return json.loads(json.dumps([obj.__dict__ for obj in certList]))
 
