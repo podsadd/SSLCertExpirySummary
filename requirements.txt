@@ -1,0 +1,7 @@
+openssl-python
+flask
+python-dotenv
+sqlalchemy
+pyOpenSSL
+/opt/apache-resmon/psycopg2-binary-2.9.9.tar.gz
+mod-wsgi

@@ -20,7 +20,7 @@ The purpose of this project is to monitor SSL certificate expiry dates for sites
 
      - `SECRET_KEY=<BAD_SECRET_KEY>`
 
-     - `CONNECTION_STRING=<connection_string>`
+     - `CONNECTION_STRING=postgresql://<dbuser>:<dbuser_password>@<servername>.<server_domain>:5432/<dbname>`
 
 3. In VS Code, open the Command Palette (View > Command Palette or (Ctrl+Shift+P)). Then select the Python: Create Environment command to create a virtual environment in your workspace. Select venv and then the Python environment you want to use to create it.
 4. After your virtual environment creation has been completed, run Terminal: Create New Terminal (Ctrl+Shift+`)) from the Command Palette, which creates a terminal and automatically activates the virtual environment by running its activation script.
@@ -78,3 +78,57 @@ The purpose of this project is to monitor SSL certificate expiry dates for sites
 - Use object-relational mapping instead of raw sql
 - Roll-over logging
 - Setting the python hash seed in the launch.json file does not seem right
+
+
+### Apache Compile and Configuration Changes ###
+
+- Compile version of Apache 2.4.57
+	cd ~
+	mkdir dev
+	cd dev
+	tar -zxvf ~/httpd-2.4.57.tar.gz
+	cd httpd-2.4.57
+	./configure --enable-ssl=shared --enable-so --enable-http2 --with-ssl=/usr/local/lib64 --libdir=/usr/local/lib64
+	make
+	sudo make install
+	# default installation directory is /usr/local/apache2
+	sudo ldconfig
+	
+- Install Server certificate and its key 
+	sudo cp ~/servername.cer /etc/ssl/certs/.
+	sudo cp ~/servername.key /etc/ssl/certs/.
+
+- Compile mod_ssl Apache module
+  NOTE: python3 needed to be recompile with the following configure options:  --enable-optimizations --enable-shared --with-openssl-rpath=auto
+	cd ~/dev
+	tar -zxvf ~/mod_wsgi-5.0.0.tar.gz
+	cd mod_wsgi-5.0.0
+	./configure --with-apxs=/usr/local/apache2/bin/apxs --with-python=/usr/local/bin/python3
+	make
+	sudo make install
+
+- clone latest revision of file local to base apache directory, ie: /usr/local/apache2
+	git clone git@github.com:podsadd/SSLCertExpirySummary.git
+	
+- Change directory to clone project
+	cd SSLCertExpirySummary
+	
+- Set required environment variables
+	export PATH=/usr/local/pgsql/bin:$PATH
+	export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib
+
+- Create virtual env(ie: "webapp" as .py and .wsgi have references to webapp as the path) where flask will run, activate it and load dependent modules within the virtual env
+	python3 -m venv webapp
+	. webapp/bin/activate
+	python3 -m pip install -r requirements.txt
+	
+- Replace/Update both apache configuration files with latest revisions of each
+	cp ./apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
+	cp ./apache2/conf/extra/rezmon.conf /usr/local/apache2/conf/extra/rezmon.conf
+	
+- Start Apache executable
+  NOTE: Service could not be enabled for Oracle Linux 7.9 reasons while trying to compile mod_systemd.so
+        All reboots of server will require that the Apache process be started by hand
+	sudo /usr/local/apache2/bin/apachectl -k start
+
+- After a few seconds, open a browser and load the servername root page, ie: https://servername/

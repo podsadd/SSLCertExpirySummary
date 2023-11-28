@@ -1,12 +1,19 @@
+#!/usr/local/bin/python3
+
+import sys
+sys.path.insert(0,'/usr/local/apache2/SSLCertExpirySummary')
+sys.path.append('/usr/local/apache2/SSLCertExpirySummary/webapp/lib/python3.11/site-packages')
+
+
 from flask import Flask, redirect, render_template, request, session, url_for
 from sqlalchemy import create_engine, text
 from dotenv import dotenv_values
 import OpenSSL, ssl, datetime, json, logging, models.EnvironmentModel, models.SSLCertModel
 
-config = dotenv_values(".env")
-logging.basicConfig(filename='flaskAppLog.log', level=logging.INFO)
+config = dotenv_values("/usr/local/apache2/SSLCertExpirySummary/.env")
+logging.basicConfig(filename='/usr/local/apache2/SSLCertExpirySummary/flaskAppLog.log', level=logging.INFO)
 
-app = Flask(__name__, template_folder='templateFiles')
+app = Flask(__name__, template_folder='/usr/local/apache2/SSLCertExpirySummary/templateFiles')
 app.secret_key = config['SECRET_KEY'] 
 
 engine = create_engine(config['CONNECTION_STRING'])
@@ -426,3 +433,7 @@ def deleteEnvironment(id):
 
     app.logger.info("/deleteEnvironment/"+ str(id) +" was called from email=" + session['email'] + ", ip=" + request.remote_addr)
     return redirect(url_for('environmentList'))
+
+
+if __name__ == "__main__":
+    app.run('--no-debugger --no-reload --host=0.0.0.0  --port 5000')
